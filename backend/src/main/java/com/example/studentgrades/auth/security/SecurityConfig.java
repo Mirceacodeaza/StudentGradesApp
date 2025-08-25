@@ -28,6 +28,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/dashboard/**").hasAnyAuthority("ADMIN", "PROFESSOR")
                         .requestMatchers("/api/students/**").hasAuthority("ADMIN")
+                        // saptamana 2 CRUD profesori & cursuri — doar ADMIN
+                        .requestMatchers("/api/professors/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/courses/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
