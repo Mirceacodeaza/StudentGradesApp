@@ -1,0 +1,11 @@
+<h2>{{ isEdit ? 'Editează profesor' : 'Adaugă profesor' }}</h2>
+
+<form (ngSubmit)="save()" #f="ngForm">
+  <label>Nume</label>
+  <input name="name" [(ngModel)]="model.name" required />
+
+  <label>Email</label>
+  <input name="email" [(ngModel)]="model.email" required type="email" />
+
+  <button type="submit" [disabled]="f.invalid">Salvează</button>
+</form>

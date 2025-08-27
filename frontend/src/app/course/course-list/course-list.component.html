@@ -1,0 +1,18 @@
+<h2>Cursuri</h2>
+<button (click)="add()">+ Adaugă</button>
+
+<table *ngIf="!loading">
+  <thead><tr><th>ID</th><th>Nume</th><th>ProfessorId</th><th></th></tr></thead>
+  <tbody>
+    <tr *ngFor="let c of courses">
+      <td>{{ c.id }}</td>
+      <td>{{ c.name }}</td>
+      <td>{{ c.professorId }}</td>
+      <td>
+        <button (click)="edit(c)">Editează</button>
+        <button (click)="remove(c)">Șterge</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div *ngIf="loading">Se încarcă...</div>

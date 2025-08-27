@@ -1,0 +1,14 @@
+<h2>{{ isEdit ? 'Editează curs' : 'Adaugă curs' }}</h2>
+
+<form (ngSubmit)="save()" #f="ngForm">
+  <label>Nume curs</label>
+  <input name="name" [(ngModel)]="model.name" required />
+
+  <label>Profesor</label>
+  <select name="professorId" [(ngModel)]="model.professorId" required>
+    <option [ngValue]="0" disabled>-- alege profesor --</option>
+    <option *ngFor="let p of professors" [ngValue]="p.id">{{ p.name }} ({{p.email}})</option>
+  </select>
+
+  <button type="submit" [disabled]="f.invalid">Salvează</button>
+</form>
