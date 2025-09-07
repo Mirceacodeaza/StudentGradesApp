@@ -1,0 +1,35 @@
+<h2>{{ isEdit ? 'Editează student' : 'Adaugă student' }}</h2>
+
+<form (ngSubmit)="save()">
+  <div>
+    <label>Prenume</label>
+    <input [(ngModel)]="model.firstName" name="firstName" required />
+  </div>
+
+  <div>
+    <label>Nume</label>
+    <input [(ngModel)]="model.lastName" name="lastName" required />
+  </div>
+
+  <div>
+    <label>Email</label>
+    <input [(ngModel)]="model.email" name="email" type="email" required />
+  </div>
+
+  <div>
+    <label>Data nașterii</label>
+    <input [(ngModel)]="model.birthDate" name="birthDate" type="date" required />
+  </div>
+
+  <div>
+    <label>Nr. matricol</label>
+    <input [(ngModel)]="model.matriculationNumber" name="matriculationNumber" required />
+  </div>
+
+  <div style="margin-top: 10px;">
+    <button type="submit">{{ isEdit ? 'Salvează' : 'Creează' }}</button>
+    <button type="button" (click)="cancel()">Renunță</button>
+  </div>
+
+  <p *ngIf="errorMsg" style="color: red">{{ errorMsg }}</p>
+</form>

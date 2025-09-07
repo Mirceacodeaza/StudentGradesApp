@@ -1,0 +1,35 @@
+<h2>Studenți</h2>
+
+<div style="margin: 8px 0;">
+  <input [(ngModel)]="q" placeholder="Caută după nume sau număr matricol" />
+  <button (click)="add()">+ Adaugă</button>
+</div>
+
+<div *ngIf="loading">Se încarcă...</div>
+
+<table *ngIf="!loading && filtered.length">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nume</th>
+      <th>Email</th>
+      <th>Nr. matricol</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let s of filtered">
+      <td>{{ s.id }}</td>
+      <td>{{ s.firstName }} {{ s.lastName }}</td>
+      <td>{{ s.email }}</td>
+      <td>{{ s.matriculationNumber }}</td>
+      <td>
+        <button (click)="view(s)">Detalii</button>
+        <button (click)="edit(s)">Editează</button>
+        <button (click)="remove(s)">Șterge</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loading && !filtered.length">Nu există rezultate.</div>

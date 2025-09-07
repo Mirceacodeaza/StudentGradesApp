@@ -24,8 +24,8 @@ export class CourseListComponent implements OnInit {
     });
   }
 
-  add() { this.router.navigate(['/course/new']); }
-  edit(c: Course) { this.router.navigate(['/course', c.id, 'edit']); }
+  add() { this.router.navigate(['/courses/new']); }
+  edit(c: Course) { this.router.navigate(['/courses', c.id, 'edit']); }
   remove(c: Course) {
     if (!c.id) return;
     if (confirm('Ștergi cursul?')) {

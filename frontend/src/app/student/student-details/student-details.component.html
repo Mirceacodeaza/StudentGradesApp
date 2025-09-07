@@ -1,0 +1,11 @@
+<h2>Detalii student</h2>
+
+<div *ngIf="student; else loading">
+  <p><b>ID:</b> {{ student.id }}</p>
+  <p><b>Nume:</b> {{ student.firstName }} {{ student.lastName }}</p>
+  <p><b>Email:</b> {{ student.email }}</p>
+  <p><b>Data nașterii:</b> {{ student.birthDate }}</p>
+  <p><b>Nr. matricol:</b> {{ student.matriculationNumber }}</p>
+</div>
+
+<ng-template #loading>Se încarcă...</ng-template>

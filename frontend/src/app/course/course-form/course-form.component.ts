@@ -39,6 +39,6 @@ export class CourseFormComponent implements OnInit {
       ? this.service.update(this.id, this.model)
       : this.service.create(this.model);
 
-    req.subscribe(() => this.router.navigate(['/course']));
+    req.subscribe(() => this.router.navigate(['/courses']));
   }
 }

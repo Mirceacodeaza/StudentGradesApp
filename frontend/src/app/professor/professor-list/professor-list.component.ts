@@ -24,8 +24,8 @@ export class ProfessorListComponent implements OnInit {
     });
   }
 
-  add() { this.router.navigate(['/professor/new']); }
-  edit(p: Professor) { this.router.navigate(['/professor', p.id, 'edit']); }
+  add() { this.router.navigate(['/professors/new']); }
+  edit(p: Professor) { this.router.navigate(['/professors', p.id, 'edit']); }
   remove(p: Professor) {
     if (!p.id) return;
     if (confirm('Ștergi profesorul?')) {

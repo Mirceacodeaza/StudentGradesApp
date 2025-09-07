@@ -33,6 +33,6 @@ export class ProfessorFormComponent implements OnInit {
       ? this.service.update(this.id, this.model)
       : this.service.create(this.model);
 
-    req.subscribe(() => this.router.navigate(['/professor']));
+    req.subscribe(() => this.router.navigate(['/professors']));
   }
 }
