@@ -1,0 +1,33 @@
+<h2 *ngIf="!isEdit">Adaugă notă</h2>
+<h2 *ngIf="isEdit">Editează notă</h2>
+
+<form (ngSubmit)="save()" #f="ngForm">
+  <div>
+    <label>Student</label>
+    <select [(ngModel)]="model.studentId" name="studentId" required>
+      <option value="0" disabled>— selectează —</option>
+      <option *ngFor="let s of students" [value]="s.id">{{ s.firstName }} {{ s.lastName }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Curs</label>
+    <select [(ngModel)]="model.courseId" name="courseId" required>
+      <option value="0" disabled>— selectează —</option>
+      <option *ngFor="let c of courses" [value]="c.id">{{ c.name }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Valoare</label>
+    <input type="number" [(ngModel)]="model.value" name="value" min="1" max="10" required />
+  </div>
+
+  <div>
+    <label>Data</label>
+    <input type="date" [(ngModel)]="model.date" name="date" required />
+  </div>
+
+  <button type="submit" [disabled]="f.invalid">Salvează</button>
+  <button type="button" (click)="cancel()">Renunță</button>
+</form>

@@ -1,0 +1,39 @@
+<h2>Note</h2>
+
+<div style="margin-bottom: 12px;">
+  <label>Filtru student:</label>
+  <select [(ngModel)]="studentId" (change)="onStudentChange()">
+    <option [ngValue]="undefined">— toți —</option>
+    <option *ngFor="let s of students" [ngValue]="s.id">{{ s.firstName }} {{ s.lastName }}</option>
+  </select>
+
+  <button (click)="add()">+ Adaugă</button>
+</div>
+
+<div *ngIf="loading">Se încarcă...</div>
+
+<table *ngIf="!loading && grades.length">
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Curs</th>
+      <th>Valoare</th>
+      <th>Data</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let g of grades">
+      <td>{{ g.studentName || g.studentId }}</td>
+      <td>{{ g.courseName || g.courseId }}</td>
+      <td>{{ g.value }}</td>
+      <td>{{ g.date }}</td>
+      <td>
+        <button (click)="edit(g)">Editează</button>
+        <button (click)="remove(g)">Șterge</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="!loading && !grades.length">Nu există note.</p>
