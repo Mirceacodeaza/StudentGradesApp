@@ -61,7 +61,7 @@ public class StudentService {
         repo.deleteById(id);
     }
 
-    // mapper simplu DTO -> Entity
+    // mapper simplu DTO -> Entity. este doar o data folosit deci putem sa il lasam aici
     private Student map(StudentDto d) {
         return Student.builder()
                 .id(d.getId())

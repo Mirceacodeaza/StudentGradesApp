@@ -39,4 +39,16 @@ public class Student {
     @NotBlank(message = "Numărul matricol este obligatoriu")
     @Column(name = "matriculation_number", nullable = false)
     private String matriculationNumber;
+
+    // în Student.java
+    @Transient
+    public String getFullName() {
+        String fn = getFirstName();
+        String ln = getLastName();
+        if (fn == null && ln == null) return null;
+        if (fn == null) return ln;
+        if (ln == null) return fn;
+        return fn + " " + ln;
+    }
+
 }

@@ -1,0 +1,21 @@
+<h2>Promovabilitate pe curs</h2>
+
+<div>
+  <label>Course ID: </label>
+  <input type="number" [(ngModel)]="courseId">
+  <button (click)="load()">Calculează</button>
+</div>
+
+<p *ngIf="error" style="color:#c00">{{ error }}</p>
+
+<div *ngIf="data">
+  <p><strong>Curs:</strong> {{ data.courseId }}</p>
+  <p><strong>Promovabilitate:</strong> {{ data.passRate | number:'1.0-2' }}%</p>
+  <p><strong>Promovați:</strong> {{ data.passed }} / {{ data.total }}</p>
+
+  <div [style]=" 'margin-top:8px;padding:8px;border-radius:6px;' + 
+                ((data.passRate >= 50) ? 'background:#e7f8ef;color:#0a7b4f' : 'background:#fdecea;color:#b00020') ">
+    <strong>{{ data.passRate >= 50 ? 'Majoritatea au promovat' : 'Mulți nu au promovat' }}</strong>
+    <span> ({{ failed }} nepromovați)</span>
+  </div>
+</div>

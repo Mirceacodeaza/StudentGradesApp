@@ -1,0 +1,14 @@
+<h2>Media pe student</h2>
+
+<div>
+  <label>Student ID: </label>
+  <input type="number" [(ngModel)]="studentId">
+  <button (click)="load()">Calculează</button>
+</div>
+
+<p *ngIf="error" style="color:#c00">{{ error }}</p>
+
+<div *ngIf="result">
+  <p><strong>Student ID:</strong> {{ result.id }}</p>
+  <p><strong>Media:</strong> {{ result.average }}</p>
+</div>

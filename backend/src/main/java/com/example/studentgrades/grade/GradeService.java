@@ -9,43 +9,51 @@ import com.example.studentgrades.student.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class GradeService {
 
     private final GradeRepository repo;
     private final StudentRepository studentRepo;
     private final CourseRepository courseRepo;
 
-    // listări
+    // LISTĂRI
     public List<GradeDto> findAll() {
-        return repo.findAll().stream().map(this::toDto).toList();
+        return repo.findAll().stream()
+                .map(GradeDto::fromEntity)
+                .toList();
     }
 
     public List<GradeDto> findByStudent(Long studentId) {
-        return repo.findByStudent_Id(studentId).stream().map(this::toDto).toList();
+        return repo.findByStudentId(studentId).stream()
+                .map(GradeDto::fromEntity)
+                .toList();
     }
 
     public List<GradeDto> findByCourse(Long courseId) {
-        return repo.findByCourse_Id(courseId).stream().map(this::toDto).toList();
+        return repo.findByCourseId(courseId).stream()
+                .map(GradeDto::fromEntity)
+                .toList();
     }
 
     public GradeDto findById(Long id) {
-        return toDto(repo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Nota inexistentă")));
+        return repo.findById(id)
+                .map(GradeDto::fromEntity)
+                .orElseThrow(() -> new IllegalArgumentException("Nota inexistentă"));
     }
 
-    // creare
+    // CREARE
     public GradeDto create(GradeRequest req) {
         Student s = studentRepo.findById(req.studentId())
                 .orElseThrow(() -> new IllegalArgumentException("Student inexistent"));
         Course c = courseRepo.findById(req.courseId())
                 .orElseThrow(() -> new IllegalArgumentException("Curs inexistent"));
 
-        // validare logică suplimentară (dacă vrei)
         if (req.value() < 1 || req.value() > 10) {
             throw new DataIntegrityViolationException("Valoarea notei trebuie să fie între 1 și 10");
         }
@@ -57,15 +65,14 @@ public class GradeService {
                 .date(req.date())
                 .build();
 
-        return toDto(repo.save(g));
+        return GradeDto.fromEntity(repo.save(g));
     }
 
-    // editare
+    // EDITARE
     public GradeDto update(Long id, GradeRequest req) {
         Grade g = repo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Nota inexistentă"));
 
-        // putem permite schimbarea studentului/cursului la nevoie
         if (!g.getStudent().getId().equals(req.studentId())) {
             Student s = studentRepo.findById(req.studentId())
                     .orElseThrow(() -> new IllegalArgumentException("Student inexistent"));
@@ -84,30 +91,14 @@ public class GradeService {
         g.setValue(req.value());
         g.setDate(req.date());
 
-        return toDto(repo.save(g));
+        return GradeDto.fromEntity(repo.save(g));
     }
 
-    // ștergere
+    // ȘTERGERE
     public void delete(Long id) {
         if (!repo.existsById(id)) {
             throw new IllegalArgumentException("Nota inexistentă");
         }
         repo.deleteById(id);
     }
-
-    // mapper
-    private GradeDto toDto(Grade g) {
-        String studentName = g.getStudent().getFirstName() + " " + g.getStudent().getLastName();
-        String courseName  = g.getCourse().getName();
-        return new GradeDto(
-                g.getId(),
-                g.getValue(),
-                g.getDate(),
-                g.getStudent().getId(),
-                studentName,
-                g.getCourse().getId(),
-                courseName
-        );
-    }
 }
-

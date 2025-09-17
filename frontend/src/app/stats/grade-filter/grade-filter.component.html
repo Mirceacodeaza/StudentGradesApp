@@ -1,0 +1,62 @@
+<h2>Filtrare note</h2>
+
+<form (ngSubmit)="search()" #f="ngForm">
+  <div>
+    <label>Student ID</label>
+    <input type="number" [(ngModel)]="filter.studentId" name="studentId">
+  </div>
+
+  <div>
+    <label>Course ID</label>
+    <input type="number" [(ngModel)]="filter.courseId" name="courseId">
+  </div>
+
+  <div>
+    <label>Min</label>
+    <input type="number" [(ngModel)]="filter.minValue" name="minValue" min="1" max="10">
+  </div>
+
+  <div>
+    <label>Max</label>
+    <input type="number" [(ngModel)]="filter.maxValue" name="maxValue" min="1" max="10">
+  </div>
+
+  <div>
+    <label>From date</label>
+    <input type="date" [(ngModel)]="filter.fromDate" name="fromDate">
+  </div>
+
+  <div>
+    <label>To date</label>
+    <input type="date" [(ngModel)]="filter.toDate" name="toDate">
+  </div>
+
+  <button type="submit" [disabled]="loading">Caută</button>
+  <button type="button" (click)="reset()">Reset</button>
+</form>
+
+<p *ngIf="loading">Se încarcă…</p>
+<p *ngIf="error" style="color:#c00">{{ error }}</p>
+
+<table *ngIf="rows.length">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Student</th>
+      <th>Curs</th>
+      <th>Valoare</th>
+      <th>Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let g of rows">
+      <td>{{ g.id }}</td>
+      <td>{{ g.studentName }}</td>
+      <td>{{ g.courseName }}</td>
+      <td>{{ g.value }}</td>
+      <td>{{ g.date | date }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="!rows.length && !loading">Nu există rezultate.</p>

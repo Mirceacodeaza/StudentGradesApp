@@ -27,6 +27,12 @@ const routes: Routes = [
     path: 'grade', loadChildren: () => import('./grade/grade.module').then(m => m.GradeModule) 
 
   },
+  {
+     
+  path: 'stats',
+  loadChildren: () => import('./stats/stats.module').then(m => m.StatsModule)
+
+  },
   { 
     path: '**', redirectTo: 'auth/login' 
   }
