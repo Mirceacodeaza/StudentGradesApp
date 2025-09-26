@@ -1,0 +1,81 @@
+<h2>Dashboard</h2>
+
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+<!-- CARDURI INFO -->
+<div class="cards">
+  <div class="card">
+    <div class="label">Studenți</div>
+    <div class="value">{{ counts?.students ?? '—' }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Profesori</div>
+    <div class="value">{{ counts?.professors ?? '—' }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Cursuri</div>
+    <div class="value">{{ counts?.courses ?? '—' }}</div>
+  </div>
+</div>
+
+<!-- TOP STUDENȚI -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>Top studenți după medie</h3>
+    <div>
+      <label>Top</label>
+      <input type="number" min="1" [(ngModel)]="topSize" />
+      <button (click)="loadAll()">Reîncarcă</button>
+    </div>
+  </div>
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Student</th>
+        <th>Medie</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of topStudents; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>{{ s.studentName }}</td>
+        <td>{{ s.average | number:'1.2-2' }}</td>
+      </tr>
+      <tr *ngIf="!topStudents.length">
+        <td colspan="3" class="empty">Nu există date.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- CURSURI POPULARE -->
+<div class="panel">
+  <div class="panel-header">
+    <h3>Cursuri populare</h3>
+    <div>
+      <label>Top</label>
+      <input type="number" min="1" [(ngModel)]="popularSize" />
+      <button (click)="loadAll()">Reîncarcă</button>
+    </div>
+  </div>
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Curs</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of popularCourses; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>{{ c.courseName }}</td>
+        <td>{{ c.gradesCount }}</td>
+      </tr>
+      <tr *ngIf="!popularCourses.length">
+        <td colspan="3" class="empty">Nu există date.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
