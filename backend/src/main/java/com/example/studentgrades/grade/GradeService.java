@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -46,7 +47,31 @@ public class GradeService {
                 .map(GradeDto::fromEntity)
                 .orElseThrow(() -> new IllegalArgumentException("Nota inexistentă"));
     }
+    //saptamana 7
+    private void validateGradeDate(LocalDate gradeDate, Course course) {
+        if (gradeDate == null) {
+            throw new DataIntegrityViolationException("Data notei este obligatorie.");
+        }
 
+        if (gradeDate.isAfter(LocalDate.now())) {
+            throw new DataIntegrityViolationException("Data notei nu poate fi în viitor.");
+        }
+
+        try {
+            var startField = Course.class.getDeclaredField("startDate");
+            startField.setAccessible(true);
+            Object start = startField.get(course);
+            if (start instanceof LocalDate startDate) {
+                if (gradeDate.isBefore(startDate)) {
+                    throw new DataIntegrityViolationException(
+                            "Data notei trebuie să fie după începerea cursului (" + startDate + ")."
+                    );
+                }
+            }
+        } catch (NoSuchFieldException | IllegalAccessException ignored) {
+
+        }
+    }
     // CREARE
     public GradeDto create(GradeRequest req) {
         Student s = studentRepo.findById(req.studentId())
@@ -56,6 +81,9 @@ public class GradeService {
 
         if (req.value() < 1 || req.value() > 10) {
             throw new DataIntegrityViolationException("Valoarea notei trebuie să fie între 1 și 10");
+        }
+        if (repo.existsByStudent_IdAndCourse_Id(req.studentId(), req.courseId())) {
+            throw new DataIntegrityViolationException("Există deja o notă pentru acest student la acest curs.");
         }
 
         Grade g = Grade.builder()
@@ -88,6 +116,9 @@ public class GradeService {
             throw new DataIntegrityViolationException("Valoarea notei trebuie să fie între 1 și 10");
         }
 
+        if (repo.existsByStudent_IdAndCourse_IdAndIdNot(req.studentId(), req.courseId(), id)) {
+            throw new DataIntegrityViolationException("Există deja o notă pentru acest student la acest curs.");
+        }
         g.setValue(req.value());
         g.setDate(req.date());
 

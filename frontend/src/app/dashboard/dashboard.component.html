@@ -1,34 +1,47 @@
-<h2>Dashboard</h2>
+<mat-toolbar color="primary">Dashboard</mat-toolbar>
 
-<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+<!-- eroare globală -->
+<mat-card *ngIf="error" class="mt-3" appearance="outlined" color="warn">
+  <div class="alert alert-danger">{{ error }}</div>
+</mat-card>
 
 <!-- CARDURI INFO -->
-<div class="cards">
-  <div class="card">
-    <div class="label">Studenți</div>
-    <div class="value">{{ counts?.students ?? '—' }}</div>
-  </div>
-  <div class="card">
-    <div class="label">Profesori</div>
-    <div class="value">{{ counts?.professors ?? '—' }}</div>
-  </div>
-  <div class="card">
-    <div class="label">Cursuri</div>
-    <div class="value">{{ counts?.courses ?? '—' }}</div>
-  </div>
+<div class="cards grid gap-3 md:grid-cols-3 mt-3">
+  <mat-card appearance="outlined">
+    <div class="label text-sm text-muted">Studenți</div>
+    <div class="value text-3xl font-semibold">{{ counts?.students ?? '—' }}</div>
+  </mat-card>
+
+  <mat-card appearance="outlined">
+    <div class="label text-sm text-muted">Profesori</div>
+    <div class="value text-3xl font-semibold">{{ counts?.professors ?? '—' }}</div>
+  </mat-card>
+
+  <mat-card appearance="outlined">
+    <div class="label text-sm text-muted">Cursuri</div>
+    <div class="value text-3xl font-semibold">{{ counts?.courses ?? '—' }}</div>
+  </mat-card>
 </div>
 
 <!-- TOP STUDENȚI -->
-<div class="panel">
-  <div class="panel-header">
-    <h3>Top studenți după medie</h3>
-    <div>
-      <label>Top</label>
-      <input type="number" min="1" [(ngModel)]="topSize" />
-      <button (click)="loadAll()">Reîncarcă</button>
+<mat-card class="mt-4" appearance="outlined">
+  <div class="panel-header flex items-center justify-between mb-2">
+    <h3 class="m-0">Top studenți după medie</h3>
+
+    <div class="flex items-center gap-3">
+      <mat-form-field appearance="outline" style="width: 120px;">
+        <mat-label>Top</mat-label>
+        <input matInput type="number" min="1" [(ngModel)]="topSize" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="loadAll()">
+        <mat-icon>refresh</mat-icon>
+        Reîncarcă
+      </button>
     </div>
   </div>
-  <table class="tbl">
+
+  <table class="tbl w-100">
     <thead>
       <tr>
         <th>#</th>
@@ -42,24 +55,32 @@
         <td>{{ s.studentName }}</td>
         <td>{{ s.average | number:'1.2-2' }}</td>
       </tr>
-      <tr *ngIf="!topStudents.length">
+      <tr *ngIf="!topStudents?.length">
         <td colspan="3" class="empty">Nu există date.</td>
       </tr>
     </tbody>
   </table>
-</div>
+</mat-card>
 
 <!-- CURSURI POPULARE -->
-<div class="panel">
-  <div class="panel-header">
-    <h3>Cursuri populare</h3>
-    <div>
-      <label>Top</label>
-      <input type="number" min="1" [(ngModel)]="popularSize" />
-      <button (click)="loadAll()">Reîncarcă</button>
+<mat-card class="mt-4" appearance="outlined">
+  <div class="panel-header flex items-center justify-between mb-2">
+    <h3 class="m-0">Cursuri populare</h3>
+
+    <div class="flex items-center gap-3">
+      <mat-form-field appearance="outline" style="width: 120px;">
+        <mat-label>Top</mat-label>
+        <input matInput type="number" min="1" [(ngModel)]="popularSize" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="loadAll()">
+        <mat-icon>refresh</mat-icon>
+        Reîncarcă
+      </button>
     </div>
   </div>
-  <table class="tbl">
+
+  <table class="tbl w-100">
     <thead>
       <tr>
         <th>#</th>
@@ -73,9 +94,9 @@
         <td>{{ c.courseName }}</td>
         <td>{{ c.gradesCount }}</td>
       </tr>
-      <tr *ngIf="!popularCourses.length">
+      <tr *ngIf="!popularCourses?.length">
         <td colspan="3" class="empty">Nu există date.</td>
       </tr>
     </tbody>
   </table>
-</div>
+</mat-card>

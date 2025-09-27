@@ -10,7 +10,14 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "grades")
+//saptamana 7
+@Table(
+        name = "grades",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_grade_student_course",
+                columnNames = {"student_id", "course_id"}
+        )
+)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Grade {
 

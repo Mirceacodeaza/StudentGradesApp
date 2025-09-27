@@ -11,8 +11,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Pageable;
 public interface GradeRepository extends JpaRepository<Grade, Long> {
+//saptamana 7
+    boolean existsByStudent_IdAndCourse_Id(Long studentId, Long courseId);
 
-
+    boolean existsByStudent_IdAndCourse_IdAndIdNot(Long studentId, Long courseId, Long id);
     List<Grade> findByStudentId(Long studentId);
     List<Grade> findByCourseId(Long courseId);
 
@@ -39,7 +41,7 @@ public interface GradeRepository extends JpaRepository<Grade, Long> {
                        @Param("fromDate")  LocalDate fromDate,
                        @Param("toDate")    LocalDate toDate);
 
-    /** Top studenți după medie */
+    // Top studenți după medie
     @Query("""
        select new com.example.studentgrades.dashboard.dto.TopStudentDto(
            s.id,
@@ -53,7 +55,7 @@ public interface GradeRepository extends JpaRepository<Grade, Long> {
        """)
     List<TopStudentDto> topStudents(Pageable pageable);
 
-    /** Cursuri populare (după numărul de studenți notați, distinct) */
+    // Cursuri populare (după numărul de studenți notați, distinct)
     @Query("""
        select new com.example.studentgrades.dashboard.dto.PopularCourseDto(
            c.id,
